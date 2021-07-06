@@ -14,6 +14,7 @@ export PUBLISH=$MAGMA_ROOT/orc8r/tools/docker/publish.sh
 export REGISTRY=magmacore
 export MAGMA_TAG=1.5.2
 ```
+> update your `REGISTRY` as per your docker username
 
 login to your docker account:
 ```bash
