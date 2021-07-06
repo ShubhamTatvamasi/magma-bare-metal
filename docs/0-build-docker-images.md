@@ -44,7 +44,7 @@ Build and push Federation Gateway images:
 ```bash
 cd $MAGMA_ROOT/feg/gateway/docker
 docker-compose build --parallel
-for image in gateway_python gateway_go gateway_go_base ; \
+for image in gateway_python gateway_go ; \
   do ${PUBLISH} -r ${REGISTRY} -i ${image} -v ${MAGMA_TAG} ; done
 ```
 
