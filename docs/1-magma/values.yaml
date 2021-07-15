@@ -1,0 +1,83 @@
+nms:
+  magmalte:
+    image:
+      repository: magmacore/magmalte
+      tag: 1.6.0
+      pullPolicy: IfNotPresent
+
+    env:
+      api_host: orc8r-nginx-proxy
+      mysql_host: postgresql
+      mysql_user: postgres
+      mysql_pass: postgres
+
+  nginx:
+    image:
+      pullPolicy: IfNotPresent
+
+    service:
+      type: LoadBalancer
+
+  secret:
+    certs: orc8r-secrets-certs
+
+nginx:
+  image:
+    repository: magmacore/nginx
+    tag: 1.6.0
+
+  spec:
+    hostname:
+
+  service:
+    type: LoadBalancer
+
+controller:
+  image:
+    repository: magmacore/controller
+    tag: 1.6.0
+
+metrics:
+  prometheus:
+    create: true
+
+  prometheusCache:
+    create: true
+
+  prometheusConfigurer:
+    create: true
+
+  alertmanager:
+    create: true
+
+  alertmanagerConfigurer:
+    create: true
+
+  metrics:
+    volumes:
+      prometheusConfig:
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: promcfg
+      prometheusData:
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: promdata
+
+  userGrafana:
+    volumes:
+      datasources:
+        persistentVolumeClaim:
+          claimName: grafanadatasources
+
+      dashboardproviders:
+        persistentVolumeClaim:
+          claimName: grafanaproviders
+
+      dashboards:
+        persistentVolumeClaim:
+          claimName: grafanadashboards
+
+      grafanaData:
+        persistentVolumeClaim:
+          claimName: grafanadata
