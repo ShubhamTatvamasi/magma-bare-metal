@@ -22,6 +22,9 @@ nms:
     certs: orc8r-secrets-certs
 
 nginx:
+  podDisruptionBudget:
+    enabled: true
+
   image:
     repository: magmacore/nginx
     tag: 1.6.0
@@ -33,16 +36,21 @@ nginx:
     type: LoadBalancer
 
 controller:
+  podDisruptionBudget:
+    enabled: true
+
   image:
     repository: magmacore/controller
     tag: 1.6.0
 
 metrics:
   prometheus:
+    includeOrc8rAlerts: true
     create: true
 
   prometheusCache:
     create: true
+    limit: 500000
 
   prometheusConfigurer:
     create: true
@@ -65,19 +73,26 @@ metrics:
             claimName: promdata
 
   userGrafana:
+    image:
+      tag: 6.7.6
+
     volumes:
       datasources:
-        persistentVolumeClaim:
-          claimName: grafanadatasources
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: grafanadatasources
 
       dashboardproviders:
-        persistentVolumeClaim:
-          claimName: grafanaproviders
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: grafanaproviders
 
       dashboards:
-        persistentVolumeClaim:
-          claimName: grafanadashboards
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: grafanadashboards
 
       grafanaData:
-        persistentVolumeClaim:
-          claimName: grafanadata
+        volumeSpec:
+          persistentVolumeClaim:
+            claimName: grafanadata
